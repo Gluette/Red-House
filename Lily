@@ -1,0 +1,32 @@
+[10/05/2022]
+今日完成:
+·人物随机脚步声：使用协程（IEnumerator）
+        IEnumerator PlaySound()
+        {
+            while (true)
+            {
+                if (player.isGround && player.speed > 0.3f && ((player.rb.velocity.x) != 0))
+                {
+                    AudioClip acp = stepSound[Random.Range(0, stepSound.Length)];
+                    audio1.PlayOneShot(acp);
+                    yield return new WaitForSeconds(acp.length);
+                }
+                else
+                {
+                    yield return null;
+                }
+           
+· 跟随某物移动：获取该物品坐标
+public Transform obj;
+    void Update()
+    {
+        transform.position =new Vector3(obj.transform.position.x-6,obj.transform.position.y+5,obj.transform.position.z);
+    }
+    
+· 搭建了第二关初步框架
+
+等待解决：
+· 敌人攻击动画
+· 反向攻击代码
+
+    
