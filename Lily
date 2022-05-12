@@ -44,7 +44,6 @@ Compelete：
 · Add Post-processing effects
 
 · Stairs moving up and down
-
     private Rigidbody2D rb;
     public Transform top, bottom;
     public float Speed;
@@ -79,5 +78,18 @@ Compelete：
             {
                 isUp = true;
             }
+        }
+    }
+
+· When player gets 3 gravitations and reach the rooftop, 3 big hourhand will fall
+  private void Update()
+    {
+        Cherry = FindObjectOfType<playercontroller>().Cherry;
+    }
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (player.Cherry > 2)
+        {
+            GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         }
     }
