@@ -1,10 +1,20 @@
-做了一半才想着要写日志:D
+Developer Log of Lily
+Half done before thinking about writing a log:D
 
 [10/05/2022]
-今日完成:
-·人物随机脚步声：使用协程（IEnumerator）
+Complete:
+· Random footsteps sounds of player
+    public playercontroller player;
+    public AudioSource audio1;
+    public AudioClip[] stepSound;
+
+    void Start()
+    {
+        StartCoroutine(PlaySound()); 
+    }
         IEnumerator PlaySound()
         {
+
             while (true)
             {
                 if (player.isGround && player.speed > 0.3f && ((player.rb.velocity.x) != 0))
@@ -17,16 +27,57 @@
                 {
                     yield return null;
                 }
-           
-· 跟随某物移动：获取该物品坐标
-public Transform obj;
+            }
+        }
+        
+· One object follow the other object
+    public Transform obj;
     void Update()
     {
         transform.position =new Vector3(obj.transform.position.x-6,obj.transform.position.y+5,obj.transform.position.z);
     }
     
-· 搭建了第二关初步框架
+· Build the preliminary framework of the second level
 
 [12/05/2022] 
-今日完成：
-· 添加post-process后期处理
+Compelete：
+· Add Post-processing effects
+
+· Stairs moving up and down
+
+    private Rigidbody2D rb;
+    public Transform top, bottom;
+    public float Speed;
+    private float TopY, BottomY;
+    private bool isUp = true;
+    public void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        TopY = top.position.y;
+        BottomY = bottom.position.y;
+        Destroy(top.gameObject);
+        Destroy(bottom.gameObject);
+    }
+    void Update()
+    {
+        Movement();
+    }
+    void Movement()
+    {
+        if (isUp)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, Speed);
+            if (transform.position.y > TopY)
+            {
+                isUp = false;
+            }
+        }
+        else
+        {
+            rb.velocity = new Vector2(rb.velocity.x, -Speed);
+            if (transform.position.y < BottomY)
+            {
+                isUp = true;
+            }
+        }
+    }
