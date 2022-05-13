@@ -37,7 +37,7 @@ Complete:
         transform.position =new Vector3(obj.transform.position.x-6,obj.transform.position.y+5,obj.transform.position.z);
     }
     
-· Build the preliminary framework of the second level
+· Build the preliminary framework of the Chapter 2
 
 [12/05/2022] 
 Compelete：
@@ -93,3 +93,8 @@ Compelete：
             GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         }
     }
+
+[13/05/2022] 
+Compelete：
+· Build the preliminary framework of the Chapter Mirror
+· Use Spring Joint 2D to create Elastic platforms
