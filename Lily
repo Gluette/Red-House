@@ -130,3 +130,7 @@ Compelete：
             rb.gravityScale = 3;
         }
     }
+
+Problems:
+· Dash time is infinite
+· Dash directions only right and left
