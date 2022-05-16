@@ -98,3 +98,35 @@ Compelete：
 Compelete：
 · Build the preliminary framework of the Chapter Mirror
 · Use Spring Joint 2D to create Elastic platforms
+
+[16/05/2022] 
+Compelete：
+· Player Dash
+  void Movement()
+    {
+        float horizontalmove = Input.GetAxisRaw("Horizontal"); ;
+      
+        if(horizontalmove != 0)
+        {
+            transform.localScale = new Vector3(horizontalmove, 1, 1);
+            direction = horizontalmove;
+        }
+        if (Input.GetButton("C") && Cherry > 0)
+        {
+            isDash = true;
+            resumeTime = Time.time + dashTime;
+            rb.velocity = new Vector2(direction * dashForce, 0);
+            rb.gravityScale = 0;
+            anim.SetTrigger("dashing");
+        }
+        if (!isDash)
+        {
+            rb.velocity = new Vector2(horizontalmove * speed, rb.velocity.y);
+            rb.angularVelocity = -rb.velocity.x / 0.5f * Mathf.Rad2Deg;
+        }
+        if (Time.time > resumeTime)
+        {
+            isDash = false;
+            rb.gravityScale = 3;
+        }
+    }
