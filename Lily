@@ -28,14 +28,7 @@ Complete:
                     yield return null;
                 }
             }
-        }
-        
-· One object follow the other object
-    public Transform obj;
-    void Update()
-    {
-        transform.position =new Vector3(obj.transform.position.x-6,obj.transform.position.y+5,obj.transform.position.z);
-    }
+        }      
     
 · Build the preliminary framework of the Chapter 2
 
@@ -84,11 +77,11 @@ Compelete：
 · When player gets 3 gravitations and reach the rooftop, 3 big hourhand will fall
   private void Update()
     {
-        Cherry = FindObjectOfType<playercontroller>().Cherry;
+        gravitations = FindObjectOfType<playercontroller>().gravitations;
     }
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (player.Cherry > 2)
+        if (player.gravitations > 2)
         {
             GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         }
@@ -102,6 +95,8 @@ Compelete：
 [16/05/2022] 
 Compelete：
 · Player Dash
+ public class playercontroller : MonoBehaviour
+{
   void Movement()
     {
         float horizontalmove = Input.GetAxisRaw("Horizontal"); ;
@@ -130,7 +125,68 @@ Compelete：
             rb.gravityScale = 3;
         }
     }
-
+}
 Problems:
 · Dash time is infinite
 · Dash directions only right and left
+
+
+[17/05/2022] 
+Compelete：
+· Enemy shoot arrows
+public class Enemy : MonoBehaviour
+{
+    void Attack()
+    {
+        Anim.Play("EnemyAttack");
+    }
+
+    public void CreateArrow()
+    {
+        GameObject obj = Instantiate(Resources.Load("Arrow")) as GameObject;
+        obj.transform.position = AttackCheck.position;
+        obj.AddComponent<Arrow>();
+    }
+}    
+ ·  player press the X key to reverse the arrow direction
+ public class playercontroller : MonoBehaviour
+{
+    public void UpdateAttack()
+    {    
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            anim.Play("attackC");
+            isAttack = true;
+            Invoke("AttackEnd", 0.333f);
+        }
+    }
+    public void AttackEnd()
+    {
+        isAttack = false;
+    }
+    public void CheckAttackBox()
+    {
+        float width = 2;
+        float height = 2;
+        Vector2 pos1 = AttackCheck.position + AttackCheck.right * width * 0.5f + AttackCheck.up * height * 0.5f;
+        Vector2 pos2 = AttackCheck.position - AttackCheck.right * width * 0.5f + AttackCheck.up * height * 0.5f;
+        Vector2 pos3 = AttackCheck.position + AttackCheck.right * width * 0.5f - AttackCheck.up * height * 0.5f;
+        Vector2 pos4 = AttackCheck.position - AttackCheck.right * width * 0.5f - AttackCheck.up * height * 0.5f;
+        Debug.DrawLine(pos1, pos2, Color.red, 0.25f);
+        Debug.DrawLine(pos2, pos4, Color.red, 0.25f);
+        Debug.DrawLine(pos3, pos4, Color.red, 0.25f);
+        Debug.DrawLine(pos3, pos1, Color.red, 0.25f);
+
+
+        Collider2D col = Physics2D.OverlapBox(AttackCheck.position, new Vector2(width, height), 0,LayerMask.GetMask("Arrow"));
+        if (col != null)
+        {
+            col.GetComponent<Arrow>().Flip();
+        }
+    }
+}
+
+   · When arrow attacks the player or enemies, they die
+  
+
+ 
